@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "SocioAgent: A agent to connect web3 to social media",
+  "version": "1.0",
+  "description": "Fetches HTML content from URLs, and helps user with onchain interactions using AI agents",
+  "permissions": ["activeTab", "http://*/*", "https://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["*://*.x.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  }
+}
