@@ -10,8 +10,12 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 
-interface Request {
-    // Add properties as needed
+import { Request as ExpressRequest } from "express";
+
+interface Request extends ExpressRequest {
+    body: {
+        prompt: string;
+    };
 }
 
 interface Response {
@@ -20,6 +24,13 @@ interface Response {
 
 app.get("/", (req: Request, res: Response) => {
     res.json({ message: "Hello, TypeScript Backend!" });
+});
+
+app.post("/test", (req: Request, res: Response) => {
+
+    console.log(req.body);
+    const {prompt} = req.body;
+    res.json({ message: `Hello, TypeScript Backend! ${prompt}` });
 });
 
 app.listen(PORT, () => {
