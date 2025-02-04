@@ -1,8 +1,8 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const {communicateWithAgent, initializeAgent} = require("./cdpActions");
-import { Request as ExpressRequest } from "express";
+import express, { Request as ExpressRequest } from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { communicateWithAgent, initializeAgent } from "./cdpActions";
+import { callChatFunction } from "./ai-agent-src/index"
 
 dotenv.config();
 
@@ -44,19 +44,32 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/test", (req: Request, res: Response) => {
 
     console.log(req.body);
-    const {prompt} = req.body;
+    const { prompt } = req.body;
     res.json({ message: `Hello, TypeScript Backend! ${prompt}` });
 });
 
 
-app.post("/chatcdp", async(req: Request, res: Response) => {
-    const {prompt} = req.body;
+app.post("/chatcdp", async (req: Request, res: Response) => {
+    const { prompt } = req.body;
 
-    const promptResponse  = await communicateWithAgent(cdpAgent, cdpConfig, prompt);
+    const promptResponse = await communicateWithAgent(cdpAgent, cdpConfig, prompt);
     console.log(promptResponse);
 
     res.json({ message: promptResponse });
 });
+
+
+app.post("/chat", async (req: Request, res: Response) => {
+    const { prompt } = req.body;
+    try {
+        const aiResponse = await callChatFunction(prompt);
+        console.log(aiResponse, 'aiResponse');
+
+        res.json({ message: aiResponse });
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

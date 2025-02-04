@@ -20,12 +20,15 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "langchain-xai": "^0.2.2"
+    "langchain-xai": "^0.2.2",
+    "openai": "^4.73.1",
+    "viem": "^2.22.21"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.0",
+    "dotenv": "^16.4.5",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
