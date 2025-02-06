@@ -2,17 +2,30 @@ const getFocusedElementPrompt = async () => {
   // Get the focused element
   const focusedElement = document.activeElement;
   const prompt = focusedElement.innerText;
+  const cleanedPrompt = prompt.replace(/->$/, "").trim();
+
+  console.log("Prompt: ", cleanedPrompt);
+
   try {
-    const res = await fetch("http://localhost:8000/test", {
+    const res = await fetch("http://localhost:8000/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json", // Required for JSON parsing in Express
       },
-      body: JSON.stringify({ prompt }),
+      body: JSON.stringify({ prompt: cleanedPrompt }),
     });
 
     const data = await res.json();
     console.log("Data: ", data);
+
+    // const parsedMessage = JSON.parse(data.message);
+
+    // console.log("Parsed Message: ", parsedMessage);
+    // console.log("Response: ", parsedMessage.response);
+
+    let newSpan = document.createElement("span");
+    focusedElement.appendChild(newSpan);
+    newSpan.innerText = data.message;
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -22,10 +35,6 @@ const getFocusedElementPrompt = async () => {
 
 async function replaceEmbTags() {
   // Find all span elements containing <emb ... emb> or &lt;emb ... emb&gt;
-
-  // console.log("Inside replaceEmbTags");
-  // const spans = document.querySelectorAll("span");
-  // console.log("Spans: ", spans);
 
   const focusedElement = document.activeElement; // Get the focused element
 
@@ -45,70 +54,69 @@ async function replaceEmbTags() {
       focusedElement.appendChild(btn);
     }
   }
+  console.log("Inside replaceEmbTags");
+  const spans = document.querySelectorAll("span");
+  // console.log("Spans: ", spans);
 
-  // console.log("Spans: ", focusedSpan.innerHTML, focusedSpan.chi);
+  spans.forEach((span) => {
+    const embRegex = /<emb\s*([^<]*)\s*emb>/g;
+    let match;
+    const decodedHTML = span.innerHTML
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">");
 
-  // focusedSpan.innerHTML = "Hello Testing";
-  // focusedSpan.appendChild(document.createTextNode("Hello Testing"));
-  // spans.forEach((span) => {
-  //   const embRegex = /<emb\s*([^<]*)\s*emb>/g;
-  //   let match;
-  //   const decodedHTML = span.innerHTML
-  //     .replace(/&lt;/g, "<")
-  //     .replace(/&gt;/g, ">");
+    while ((match = embRegex.exec(decodedHTML)) !== null) {
+      const match1 = match;
 
-  //   while ((match = embRegex.exec(decodedHTML)) !== null) {
-  //     const match1 = match;
+      console.log("MATCHHHHH: ", match1);
 
-  //     console.log("MATCHHHHH: ", match1);
+      const url1 = match[1].trim();
+      console.log("URL1: ", url1);
 
-  //     const url1 = match[1].trim();
-  //     console.log("URL1: ", url1);
+      const defaultResponse = {
+        span: "defaultSpan",
+        match: "defaultMatch",
 
-  //     //       const defaultResponse = {
-  //     //         span: "defaultSpan",
-  //     //         match: "defaultMatch",
+        htmlText: `<html>
 
-  //     //         htmlText: `<html>
+      <head>
+          <title>Parent Page with iframe</title>
+          <style>
+              .iframe-container {
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  // max-width: 800px;
+                  // margin: 20px auto;
+                  // border: 1px solid #ccc;
+              }
 
-  //     // <head>
-  //     //     <title>Parent Page with iframe</title>
-  //     //     <style>
-  //     //         .iframe-container {
-  //     //             width: 100%;
-  //     //             display: flex;
-  //     //             justify-content: center;
-  //     //             // max-width: 800px;
-  //     //             // margin: 20px auto;
-  //     //             // border: 1px solid #ccc;
-  //     //         }
+              iframe {
+                width: 400px;
+                height: 500px;
+                border: none;
+                border-radius: 15px;
+              }
+          </style>
+      </head>
 
-  //     //         iframe {
-  //     //           width: 400px;
-  //     //           height: 500px;
-  //     //           border: none;
-  //     //           border-radius: 15px;
-  //     //         }
-  //     //     </style>
-  //     // </head>
+      <body>
+          <div class="iframe-container">
+              <iframe src="http://localhost:5173/template/${url1}" title="Embedded React App"
+                  allow="accelerometer; camera; encrypted-media; geolocation; gyroscope; microphone"
+                  sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+          </div>
+      </body>
 
-  //     // <body>
-  //     //     <div class="iframe-container">
-  //     //         <iframe src="https://embedly-nine.vercel.app/custom/${url1}" title="Embedded React App"
-  //     //             allow="accelerometer; camera; encrypted-media; geolocation; gyroscope; microphone"
-  //     //             sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
-  //     //     </div>
-  //     // </body>
+      </html>
+      `,
+        jsCode: ``,
+      };
 
-  //     // </html>
-  //     // `,
-  //     //         jsCode: ``,
-  //     //       };
-
-  //     // add html content
-  //     // span.innerHTML = defaultResponse.htmlText;
-  //   }
-  // });
+      // add html content
+      span.innerHTML = defaultResponse.htmlText;
+    }
+  });
 }
 
 // Run the function every 1 second

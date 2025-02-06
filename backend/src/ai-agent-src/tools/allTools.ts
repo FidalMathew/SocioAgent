@@ -11,6 +11,9 @@ import { approveTokenAllowanceTool } from './approveTokenAllowance';
 import { getTokenBalanceTool } from './getTokenBalance';
 import { sayHiTool } from './sayHiTool';
 
+import { createDonationTemplateTool } from './createDonationTemplate';
+import { create } from 'domain';
+
 export interface ToolConfig<T = any> {
     definition: {
         type: 'function';
@@ -28,6 +31,11 @@ export interface ToolConfig<T = any> {
 }
 
 export const tools: Record<string, ToolConfig> = {
+
+    // == CREATE == \\
+    create_donation_template: createDonationTemplateTool,
+
+
     // == READ == \\
     get_balance: getBalanceTool,
     get_wallet_address: getWalletAddressTool,

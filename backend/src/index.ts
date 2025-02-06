@@ -65,7 +65,18 @@ app.post("/chat", async (req: Request, res: Response) => {
         const aiResponse = await callChatFunction(prompt);
         console.log(aiResponse, 'aiResponse');
 
-        res.json({ message: aiResponse });
+        console.log(typeof aiResponse); // Ensure it's an object
+        console.log(aiResponse); // View the full response
+
+
+        const parsedResponse = JSON.parse(aiResponse);
+        console.log(parsedResponse.response, "parsedResponse.response");
+
+
+
+        // const parsedMessage = JSON.parse(aiResponse.message);
+        // console.log(aiResponse.response, 'aiResponse.response');
+        res.json({ message: parsedResponse.response });
     } catch (err) {
         console.log(err);
     }

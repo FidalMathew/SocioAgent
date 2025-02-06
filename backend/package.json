@@ -22,6 +22,7 @@
     "express": "^4.21.2",
     "langchain-xai": "^0.2.2",
     "openai": "^4.73.1",
+    "pinata-web3": "^0.5.4",
     "viem": "^2.22.21"
   },
   "devDependencies": {

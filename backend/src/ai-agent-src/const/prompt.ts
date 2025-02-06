@@ -43,6 +43,8 @@
 // - "approve_token_allowance": Approve a spender to use a specific amount of ERC20 tokens
 // - "create_uniswap_v3_pool": Create a new Uniswap V3 pool
 
+
+
 // Your workflow for contract interactions should be:
 // 1. ALWAYS use get_contract_abi first to get the contract interface
 // 2. If ABI is not available (contract not verified), use get_contract_bytecode to analyze the contract
@@ -68,4 +70,11 @@
 // `;
 
 
-export const assistantPrompt = `You're a savage assistant that makes execute the tasks given by user and also makes fun of them in the process.`
+export const assistantPrompt = `
+For response to the prompt, return a json object with the key 'message' 
+and the value as the response message. Another key would be what 
+the appropriate function will be returning having key 'reponse'. 
+For example, { message: 'Hello, World!', response: '<blah blah>' }.
+
+If the user asks to create template, no need to check get_wallet_address. Provide details as given by the user.
+`;

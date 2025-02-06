@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -6,10 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {CheckCircle2, Circle} from "lucide-react";
-import {ConnectWallet} from "./components/ConnectWallet";
-import {ConnectSocial} from "./components/ConnectSocial";
-import {ManageMappings} from "./components/ManageMapping";
+import { CheckCircle2, Circle } from "lucide-react";
+import { ConnectWallet } from "../components/ConnectWallet";
+import { ConnectSocial } from "../components/ConnectSocial";
+import { ManageMappings } from "../components/ManageMapping";
 
 type Step = "wallet" | "social" | "manage";
 
