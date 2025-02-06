@@ -1,7 +1,10 @@
 const getFocusedElementPrompt = async () => {
   // Get the focused element
   const focusedElement = document.activeElement;
-  const prompt = focusedElement.innerText;
+  let prompt = focusedElement.innerText;
+
+  prompt = prompt.split("->")[0].trim();
+
   const cleanedPrompt = prompt.replace(/->$/, "").trim();
 
   console.log("Prompt: ", cleanedPrompt);
@@ -24,6 +27,11 @@ const getFocusedElementPrompt = async () => {
     // console.log("Response: ", parsedMessage.response);
 
     let newSpan = document.createElement("span");
+    newSpan.id = "responseSpan";
+
+    if (focusedElement.contains(document.getElementById("responseSpan"))) {
+      focusedElement.removeChild(document.getElementById("responseSpan"));
+    }
     focusedElement.appendChild(newSpan);
     newSpan.innerText = data.message;
   } catch (error) {
@@ -36,24 +44,24 @@ const getFocusedElementPrompt = async () => {
 async function replaceEmbTags() {
   // Find all span elements containing <emb ... emb> or &lt;emb ... emb&gt;
 
-  const focusedElement = document.activeElement; // Get the focused element
+  // const focusedElement = document.activeElement; // Get the focused element
 
-  if (focusedElement) {
-    // Check if a button with id "myBtn" already exists inside the span
-    if (
-      focusedElement.innerText != "" &&
-      !focusedElement.querySelector("#myBtn")
-    ) {
-      const btn = document.createElement("button");
-      btn.id = "myBtn";
-      btn.innerText = "->";
-      btn.style.marginTop = "5px"; // Add some spacing
-      btn.onclick = getFocusedElementPrompt; // Call the function when the button is clicked
+  // if (focusedElement) {
+  //   // Check if a button with id "myBtn" already exists inside the span
+  //   if (
+  //     focusedElement.innerText != "" &&
+  //     !focusedElement.querySelector("#myBtn")
+  //   ) {
+  //     const btn = document.createElement("button");
+  //     btn.id = "myBtn";
+  //     btn.innerText = "->";
+  //     btn.style.marginTop = "5px"; // Add some spacing
+  //     btn.onclick = getFocusedElementPrompt; // Call the function when the button is clicked
 
-      // Append the button to the focused span
-      focusedElement.appendChild(btn);
-    }
-  }
+  //     // Append the button to the focused span
+  //     focusedElement.appendChild(btn);
+  //   }
+  // }
   console.log("Inside replaceEmbTags");
   const spans = document.querySelectorAll("span");
   // console.log("Spans: ", spans);
