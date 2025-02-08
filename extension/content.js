@@ -129,5 +129,36 @@ async function replaceEmbTags() {
 
 // Run the function every 1 second
 
+function getUsername() {
+  const avatarContainer = document.querySelector(
+    "[data-testid^='UserAvatar-Container-']"
+  );
+
+  if (avatarContainer) {
+    const dataTestId = avatarContainer.getAttribute("data-testid");
+    const username = dataTestId.replace("UserAvatar-Container-", ""); // Remove prefix
+    console.log("Username:", username);
+
+    // Store username in chrome.storage for use in popup.js
+    chrome.storage.sync.set({ twitterUsername: username });
+  } else {
+    console.log("User avatar not found");
+  }
+}
+
+// MutationObserver to detect when the avatar container is added to the DOM
+const observer = new MutationObserver(() => {
+  if (document.querySelector("[data-testid^='UserAvatar-Container-']")) {
+    getUsername();
+    observer.disconnect(); // Stop observing after we get the username
+  }
+});
+
+// Start observing changes in the body
+observer.observe(document.body, { childList: true, subtree: true });
+
+// Run once in case the element is already present
+
+getUsername();
 console.log("Running replaceEmbTags");
 setInterval(replaceEmbTags, 1000);
