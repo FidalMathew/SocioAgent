@@ -159,6 +159,22 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 // Run once in case the element is already present
 
+// Listen for messages from background.js
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "getTweetText") {
+    console.log("Inside getTweetText -- content");
+    let tweetElement = document.querySelector('[data-testid="tweetText"]');
+
+    if (tweetElement) {
+      let tweetText = tweetElement.innerText;
+      sendResponse({ tweetText }); // Send response directly
+    } else {
+      sendResponse({ tweetText: "No tweet found" });
+    }
+  }
+  return true; // Required to keep sendResponse alive for async calls
+});
+
 getUsername();
 console.log("Running replaceEmbTags");
 setInterval(replaceEmbTags, 1000);

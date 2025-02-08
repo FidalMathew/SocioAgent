@@ -9,7 +9,8 @@
     "https://*/*",
     "contextMenus",
     "scripting",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "content_scripts": [
     {
