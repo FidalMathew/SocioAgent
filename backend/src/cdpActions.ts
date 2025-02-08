@@ -6,6 +6,7 @@ import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { ChatOpenAI } from "@langchain/openai";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
+import path from "path";
 // import * as readline from "readline";
 
 dotenv.config();
@@ -13,11 +14,12 @@ dotenv.config();
 
 
 // Configure a file to persist the agent's CDP MPC Wallet Data
-const WALLET_DATA_FILE = "wallet_data.txt";
 
-async function initializeAgent() {
-    // Initialize LLM
-    console.log("Initialized LLM", process.env.XAI_API_KEY);
+async function initializeAgent(uuid: string) {
+  const WALLET_DATA_FILE = path.join(__dirname, 'walletDataFile', `${uuid}_wallet_data.txt`);
+  console.log(WALLET_DATA_FILE, 'wallet data file')
+  // Initialize LLM
+  console.log("Initialized LLM", process.env.XAI_API_KEY);
 
 
   const llm = new ChatOpenAI({
@@ -76,30 +78,31 @@ async function initializeAgent() {
 
 
 const communicateWithAgent = async (agent: any, config: any, prompt: string) => {
-    console.log("Starting Agent...", prompt);
-  
-  
-    let fullResponse = ""; // Initialize an empty string to store the full response.
-  
-    const stream = await agent.stream(
-        { messages: [new HumanMessage(prompt)] },
-        config,
-      );
+  console.log("Starting Agent...", prompt);
 
 
-      for await (const chunk of stream) {
-        if ("agent" in chunk) {
-          fullResponse += chunk.agent.messages[0].content + "\n"; 
-        } else if ("tools" in chunk) {
-          fullResponse += chunk.tools.messages[0].content + "\n"; 
-        }
-        // You can log if needed during the chunk processing.
-        console.log("-------------------");
-      }
-    
-  
-    return fullResponse; // Return the accumulated full response.
-  };
-  
+  let fullResponse = ""; // Initialize an empty string to store the full response.
 
-export {  communicateWithAgent, initializeAgent };
+  console.log(agent, 'agent')
+  const stream = await agent.stream(
+    { messages: [new HumanMessage(prompt)] },
+    config,
+  );
+
+
+  for await (const chunk of stream) {
+    if ("agent" in chunk) {
+      fullResponse += chunk.agent.messages[0].content + "\n";
+    } else if ("tools" in chunk) {
+      fullResponse += chunk.tools.messages[0].content + "\n";
+    }
+    // You can log if needed during the chunk processing.
+    console.log("-------------------");
+  }
+
+
+  return fullResponse; // Return the accumulated full response.
+};
+
+
+export { communicateWithAgent, initializeAgent };
