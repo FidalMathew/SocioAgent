@@ -76,7 +76,7 @@ app.post("/chat", async (req: Request, res: Response) => {
 
         // const parsedMessage = JSON.parse(aiResponse.message);
         // console.log(aiResponse.response, 'aiResponse.response');
-        res.json({ message: parsedResponse.response });
+        res.json({ message: parsedResponse.message });
     } catch (err) {
         console.log(err);
     }

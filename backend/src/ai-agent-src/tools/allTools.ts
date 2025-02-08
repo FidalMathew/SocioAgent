@@ -10,6 +10,7 @@ import { uniswapV3CreatePoolTool } from './uniswapV3createPool';
 import { approveTokenAllowanceTool } from './approveTokenAllowance';
 import { getTokenBalanceTool } from './getTokenBalance';
 import { sayHiTool } from './sayHiTool';
+import { getInfoAboutCoin } from './getInfoAboutCoin';
 
 import { createDonationTemplateTool } from './createDonationTemplate';
 import { create } from 'domain';
@@ -34,6 +35,8 @@ export const tools: Record<string, ToolConfig> = {
 
     // == CREATE == \\
     create_donation_template: createDonationTemplateTool,
+
+    get_info_about_coin: getInfoAboutCoin,
 
 
     // == READ == \\

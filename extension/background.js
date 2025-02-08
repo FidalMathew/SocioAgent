@@ -93,7 +93,7 @@ function translateAndReplaceText() {
 
     let translatedSpan = document.createElement("span");
     translatedSpan.textContent = newText;
-    translatedSpan.style.color = "blue"; // Highlight
+    translatedSpan.style.color = "white"; // Highlight
 
     if (selectedNode.nodeType === Node.TEXT_NODE) {
       let parentElement = selectedNode.parentNode;
@@ -130,22 +130,24 @@ function translateAndReplaceText() {
 
     console.log("Fetching tweet...");
     try {
-      const res = await chrome.runtime.sendMessage({
+      const ress = await chrome.runtime.sendMessage({
         action: "fetchTweetText",
         tabId: activeTabId,
       });
-      console.log("Tweet fetched:", res.tweetText);
+      console.log("Tweet fetched:", ress.tweetText);
+
+      if (ress && ress.tweetText) {
+        selectedText =
+          ress.tweetText +
+          " Using the context of the tweet above, execute the following action: " +
+          selectedText;
+      }
     } catch (error) {
       console.error("Error fetching tweet:", error);
       return;
     }
 
-    if (res && res.tweetText) {
-      selectedText =
-        res.tweetText +
-        " Using the context of the tweet above, execute the following action: " +
-        selectedText;
-    }
+    console.log("Selected text:", selectedText);
 
     try {
       const res = await fetch("http://localhost:8000/chat", {
@@ -157,6 +159,8 @@ function translateAndReplaceText() {
       });
 
       const data = await res.json();
+
+      console.log("Data: -- from backend", data);
       if (data && data.message) {
         replaceSelectedText(data.message);
       }
