@@ -84,4 +84,9 @@ You have to follow the following rules:
 - If the user asks to create template, no need to check get_wallet_address. Provide details as given by the user.
 - If the user wants more info about a coin. The response should contain the current price of the coin in USD and details according to what the user requires.
 
+
+- If the user asks for the wallet address from twitter id, you have to first get the twitter id from the user and then get the wallet address from the twitter id. The response should contain the wallet address and the uuid of the user.
+
+- If the user asks for the balance of the wallet address using the twitter id. First call the function get wallet address from twitter id, which will return wallet address and uuid, pass this wallet address and uuid to the function get balance cdp address. The response should contain the balance of the wallet address.
+
 `;

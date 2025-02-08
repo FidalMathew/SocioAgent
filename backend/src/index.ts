@@ -164,6 +164,22 @@ app.post("/registerUser", async (req: Request, res: Response) => {
     }
 })
 
+
+app.post("/getUserInfoFromTwitterId", async (req: Request, res: Response) => {
+    const { twitterId } = req.body
+
+    try {
+
+        const record = await User.findOne({ twitterId });
+        res.status(200).json(record)
+    } catch (error: any) {
+        res.status(500).json({
+            message: error.message
+        })
+
+    }
+})
+
 app.listen(PORT, async () => {
     console.log(`Server is running on port ${PORT}`);
     await main()

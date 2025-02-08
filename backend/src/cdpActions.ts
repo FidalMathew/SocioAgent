@@ -83,7 +83,6 @@ const communicateWithAgent = async (agent: any, config: any, prompt: string) => 
 
   let fullResponse = ""; // Initialize an empty string to store the full response.
 
-  console.log(agent, 'agent')
   const stream = await agent.stream(
     { messages: [new HumanMessage(prompt)] },
     config,

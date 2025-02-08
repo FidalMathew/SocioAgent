@@ -14,6 +14,8 @@ import { getInfoAboutCoin } from './getInfoAboutCoin';
 
 import { createDonationTemplateTool } from './createDonationTemplate';
 import { create } from 'domain';
+import { getWalletAddressFromTwitterIdTool } from './getWalletAddressFromTwitterId';
+import { getBalanceCdpAddressTool } from './getBalanceCdpAddress';
 
 export interface ToolConfig<T = any> {
     definition: {
@@ -38,14 +40,15 @@ export const tools: Record<string, ToolConfig> = {
 
     get_info_about_coin: getInfoAboutCoin,
 
+    get_wallet_address_from_twitter_id: getWalletAddressFromTwitterIdTool,
+
+    get_balance_cdp_address: getBalanceCdpAddressTool,
+
 
     // == READ == \\
-    get_balance: getBalanceTool,
-    get_wallet_address: getWalletAddressTool,
     get_contract_abi: getContractAbiTool,
     read_contract: readContractTool,
     get_transaction_receipt: getTransactionReceiptTool,
-    get_token_balance: getTokenBalanceTool,
     // get_contract_bytecode: getContractBytecodeTool,
 
     // == WRITE == \\
