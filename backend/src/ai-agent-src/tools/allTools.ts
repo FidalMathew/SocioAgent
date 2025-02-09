@@ -14,12 +14,9 @@ import { getInfoAboutCoin } from './getInfoAboutCoin';
 import { createDonationTemplateTool } from './createDonationTemplate';
 import { getWalletAddressFromTwitterIdTool } from './getWalletAddressFromTwitterId';
 import { getBalanceCdpAddressTool } from './getBalanceCdpAddress';
-<<<<<<< HEAD
 import {trackCoinPriceCronJob} from './createCronJob';
-=======
 import { sendTransactionCustomChainTool } from './sendTransactionCustomChain';
 import { getBalanceCustomTool } from './getBalanceCustom';
->>>>>>> 7356376eddd1695679ac19f04a1a399986c50e82
 
 export interface ToolConfig<T = any> {
     definition: {
@@ -51,14 +48,11 @@ export const tools: Record<string, ToolConfig> = {
 
     send_transaction_cdp: sendTransactionCdpTool,
 
-<<<<<<< HEAD
     track_coin_price_cron_job: trackCoinPriceCronJob,
-=======
     send_transaction_custom_chain: sendTransactionCustomChainTool,
 
     get_balance_custom: getBalanceCustomTool,
 
->>>>>>> 7356376eddd1695679ac19f04a1a399986c50e82
 
 
     // == READ == \\
