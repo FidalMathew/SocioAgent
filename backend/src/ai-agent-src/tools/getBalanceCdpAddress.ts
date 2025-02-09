@@ -14,7 +14,7 @@ export const getBalanceCdpAddressTool: ToolConfig<GetBalanceArgs> = {
         type: 'function',
         function: {
             name: 'get_balance_cdp_address',
-            description: 'Get the balance of a wallet address and uuid passed from get wallet address from twitter id tool',
+            description: "Run only when chain is not mentioned or base sepolia is mentioned. Get the balance of a wallet address and uuid passed from get wallet address from twitter id tool, don't run this tool if the chain is flow",
             parameters: {
                 type: 'object',
                 properties: {

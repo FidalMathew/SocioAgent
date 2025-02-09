@@ -10,6 +10,8 @@ import { readFileSync } from "fs";
 import path from "path";
 import { Hex } from "viem";
 import User from "./schema/userSchema";
+import { createPrivateKey } from "crypto";
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
 dotenv.config();
 
@@ -139,14 +141,20 @@ app.post("/registerUser", async (req: Request, res: Response) => {
         const walletFilePath = path.join(__dirname, 'walletDataFile', `${uuid}_wallet_data.txt`);
         const readWalletFile: CDPAgentFile = JSON.parse(readFileSync(walletFilePath).toString());
 
+        const privateKey = generatePrivateKey();
 
+        const account = privateKeyToAccount(privateKey);
 
 
         await User.create({
             useruuid: uuid,
             twitterId,
-            cdpWalletAddress: readWalletFile.defaultAddressId
+
+            cdpWalletAddress: readWalletFile.defaultAddressId,
+            ethereumWalletPrivateKey: privateKey,
+            ethereumWalletPublicKey: account.publicKey
         })
+
 
 
 

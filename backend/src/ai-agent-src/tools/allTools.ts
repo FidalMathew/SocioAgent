@@ -1,5 +1,5 @@
-import { getBalanceTool } from './getBalance';
-import { getWalletAddressTool } from './getWalletAddress';
+
+
 import { readContractTool } from './readContract';
 import { sendTransactionCdpTool } from './sendTransactionCdp';
 import { writeContractTool } from './writeContract';
@@ -8,14 +8,14 @@ import { getTransactionReceiptTool } from './getTransactionReceipt';
 import { deployErc20Tool } from './deployErc20';
 import { uniswapV3CreatePoolTool } from './uniswapV3createPool';
 import { approveTokenAllowanceTool } from './approveTokenAllowance';
-import { getTokenBalanceTool } from './getTokenBalance';
 import { sayHiTool } from './sayHiTool';
 import { getInfoAboutCoin } from './getInfoAboutCoin';
 
 import { createDonationTemplateTool } from './createDonationTemplate';
-import { create } from 'domain';
 import { getWalletAddressFromTwitterIdTool } from './getWalletAddressFromTwitterId';
 import { getBalanceCdpAddressTool } from './getBalanceCdpAddress';
+import { sendTransactionCustomChainTool } from './sendTransactionCustomChain';
+import { getBalanceCustomTool } from './getBalanceCustom';
 
 export interface ToolConfig<T = any> {
     definition: {
@@ -46,6 +46,10 @@ export const tools: Record<string, ToolConfig> = {
 
 
     send_transaction_cdp: sendTransactionCdpTool,
+
+    send_transaction_custom_chain: sendTransactionCustomChainTool,
+
+    get_balance_custom: getBalanceCustomTool,
 
 
 

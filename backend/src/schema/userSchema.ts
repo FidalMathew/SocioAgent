@@ -25,6 +25,10 @@ const userSchema = new Schema({
     },
     cdpWalletAddress: { type: String, unique: true },
 
+    ethereumWalletPublicKey: { type: String, unique: true },
+    ethereumWalletPrivateKey: { type: String, unique: true },
+
+
 })
 
 const User = model("User", userSchema);
