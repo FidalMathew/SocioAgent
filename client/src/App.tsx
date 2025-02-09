@@ -1,9 +1,9 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./Home";
 import Template from "./pages/Template";
-import { Auth0Provider } from "@auth0/auth0-react";
-import { LoginForm } from "./pages/Login";
-import { StarknetProvider } from "./StarknetProvider";
+import {Auth0Provider} from "@auth0/auth0-react";
+import {LoginForm} from "./pages/Login";
+import {StarknetProvider} from "./StarknetProvider";
 
 function App() {
   return (

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -64,7 +65,6 @@
     @apply bg-background text-foreground;
   }
 }
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
 
 .bricolage-grotesque-100 {
   font-family: "Bricolage Grotesque", serif;
