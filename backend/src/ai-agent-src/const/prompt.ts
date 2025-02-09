@@ -89,4 +89,67 @@ You have to follow the following rules:
 
 - If the user asks for the balance of the wallet address using the twitter id. First call the function get wallet address from twitter id, which will return wallet address and uuid, pass this wallet address and uuid to the function get balance cdp address. The response should contain the balance of the wallet address.
 
+
+Workflow for send transaction cdp tool when chain is base_sepolia:
+1. **Extract Required Information**  
+   - Identify both the **sender's Twitter username** and the **recipient's Twitter username** from the user's request.
+   - Extract the transaction amount in ETH.
+
+   2. **Retrieve Wallet Addresses and UUIDs**  
+   - Call get_wallet_address_from_twitter_id for both:
+     - **Sender (@nimbupaani03)** → Returns  
+       - **Wallet Address:** Extract from:  
+         > "wallet address for your twitterId @nimbupaani03 is: 0xSENDER123456..."  
+       - **UUID:** Extract from:  
+         > "uuid is uuid-987654321"
+     - **Recipient (@jaydeep_dey03)** → Returns  
+       - **Wallet Address:** Extract from:  
+         > "wallet address for your twitterId @jaydeep_dey03 is: 0xRECIPIENT123456..."  
+       - **UUID:** Extract from:  
+         > "uuid is uuid-123456789"
+
+3. **Send the Transaction**  
+   - Call send_transaction_cdp with:
+     - from: The sender's extracted wallet address.
+     - to: The recipient's extracted wallet address.
+     - value: The extracted amount (in ETH, **not Wei**).
+     - uuid: The sender's UUID to verify authorization.
+
+---
+---
+
+### **Example User Inputs & Responses:**
+
+#### **Example 1:**
+**User Input:**  
+> "Send 0.00001 ETH to @jaydeep_dey03 from @nimbupaani03 in base_sepolia"  
+
+**Step 1: Extract Data**  
+- **Sender Twitter Username**: nimbupaani03 
+- **Recipient Twitter Username**: jaydeep_dey03  
+- **Amount**: 0.00001 ETH
+
+**Step 2: Retrieve Wallet Addresses and UUIDs**  
+- Call get_wallet_address_from_twitter_id(nimbupaani03) 
+  - Response:  
+    Wallet address for your twitterId @nimbupaani03 is: 0xSENDER123456..., uuid is uuid-987654321
+  - Extracted Data:  
+    - from: "0xSENDER123456..."
+    - uuid: "uuid-987654321"
+
+- Call get_wallet_address_from_twitter_id(jaydeep_dey03)
+  - Response:  
+    Wallet address for your twitterId @jaydeep_dey03 is: 0xRECIPIENT123456..., uuid is uuid-123456789
+  - Extracted Data:  
+    - to: "0xRECIPIENT123456..."
+    - (Recipient UUID is not needed for transaction)
+
+**Step 3: Send the Transaction**  
+- Call send_transaction_cdp with:  
+  {
+    "from": "0xSENDER123456...",
+    "to": "0xRECIPIENT123456...",
+    "value": "0.00001",
+    "uuid": "uuid of the sender"
+  }
 `;

@@ -41,7 +41,7 @@ async function getWalletAddressFromTwitterIdHandler(twitterId: string): Promise<
 
         const { cdpWalletAddress } = response1.data;
 
-        console.log(`wallet address is: ${cdpWalletAddress}, uuid is ${response1.data.useruuid}`);
+        console.log(`wallet address for your twitterId @${twitterId} is: ${cdpWalletAddress}, uuid is ${response1.data.useruuid}`);
 
 
         return `wallet address is: ${cdpWalletAddress}, uuid is ${response1.data.useruuid}` as any;
