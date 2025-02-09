@@ -16,6 +16,7 @@ import { createDonationTemplateTool } from './createDonationTemplate';
 import { create } from 'domain';
 import { getWalletAddressFromTwitterIdTool } from './getWalletAddressFromTwitterId';
 import { getBalanceCdpAddressTool } from './getBalanceCdpAddress';
+import {trackCoinPriceCronJob} from './createCronJob';
 
 export interface ToolConfig<T = any> {
     definition: {
@@ -47,6 +48,7 @@ export const tools: Record<string, ToolConfig> = {
 
     send_transaction_cdp: sendTransactionCdpTool,
 
+    track_coin_price_cron_job: trackCoinPriceCronJob,
 
 
     // == READ == \\
