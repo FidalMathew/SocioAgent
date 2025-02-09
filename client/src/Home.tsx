@@ -1,5 +1,5 @@
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Button} from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 import {
   Dialog,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {useState} from "react";
+import { useEffect, useState } from "react";
 
 import {
   Select,
@@ -17,9 +17,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {Input} from "./components/ui/input";
-import {ArrowRight, Fingerprint, LayoutDashboard} from "lucide-react";
-import {motion} from "framer-motion";
+import { Input } from "./components/ui/input";
+import { ArrowRight, Fingerprint, LayoutDashboard } from "lucide-react";
+import { motion } from "framer-motion";
+import { useUser } from "./context/socioAgentContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -28,6 +30,17 @@ export default function Home() {
   const [selectedOption, setSelectedOption] = useState<
     "github" | "google" | "twitter" | ""
   >("");
+
+  const { user } = useUser(); // Get userLogin function from context
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user?.twitterId == "") {
+      navigate("/login"); // Redirect to home
+    }
+  }, [user, navigate]);
+
   return (
     <div className="h-screen w-full flex">
       <Dialog open={open} onOpenChange={setOpen}>
@@ -154,12 +167,12 @@ export default function Home() {
             <DialogTitle>Template</DialogTitle>
             <DialogDescription className="p-7 relative">
               <motion.div
-                transition={{duration: 0.7}}
-                animate={{rotateY: flip ? 0 : 180}}
+                transition={{ duration: 0.7 }}
+                animate={{ rotateY: flip ? 0 : 180 }}
               >
                 <motion.div
-                  transition={{duration: 0.7}}
-                  animate={{rotateY: flip ? 0 : 180}}
+                  transition={{ duration: 0.7 }}
+                  animate={{ rotateY: flip ? 0 : 180 }}
                   onClick={() => setFlip(!flip)}
                   // style={{
                   //   backfaceVisibility: "hidden",
@@ -168,8 +181,8 @@ export default function Home() {
                   <img src="/template-1.png" alt="template-1" />
                 </motion.div>
                 <motion.div
-                  transition={{duration: 0.7}}
-                  animate={{rotateY: flip ? 0 : 180}}
+                  transition={{ duration: 0.7 }}
+                  animate={{ rotateY: flip ? 0 : 180 }}
                   onClick={() => setFlip(!flip)}
                   style={{
                     backfaceVisibility: "hidden",
@@ -220,7 +233,7 @@ export default function Home() {
               fontSize: "1.5rem",
             }}
           >
-            Hello Jaydeep!
+            {/* Hello ! */}
           </p>
         </div>
         <div>
@@ -244,7 +257,11 @@ export default function Home() {
                 className="h-8 w-8 font-serif"
               />
             </div>
-            <p className="text-2xl font-semibold ml-2">0x2434...3434343</p>
+            <p className="text-2xl font-semibold ml-2">
+              {" "}
+              {user?.walletAddress.slice(0, 10)}...{" "}
+              {user?.walletAddress.slice(-10)}{" "}
+            </p>
           </div>
           <div className="w-1/2 h-fit border rounded-xl gap-3 bricolage-grotesque-300 bg-white pl-4 py-6 flex flex-col">
             <div className="flex items-center justify-between px-6 pl-2">
@@ -252,9 +269,7 @@ export default function Home() {
 
               <Fingerprint className="h-7 w-7 font-serif" />
             </div>
-            <p className="text-2xl font-semibold ml-2">
-              khoeihf-erihoerhie-eriheopir-rier
-            </p>
+            <p className="text-2xl font-semibold ml-2">{user?.uuid}</p>
           </div>
         </div>
         <div className="w-full mt-4 lg:h-[55%] h-full flex gap-3 flex-col lg:flex-row">
@@ -286,14 +301,14 @@ export default function Home() {
                 <img src="/twitter.png" alt="twitter" className="h-11 w-11" />
                 <div className="flex flex-col justify-center items-start">
                   <p className="bricolage-grotesque-600">Twitter</p>
-                  <p>jaydeep_dey03</p>
+                  <p>{user?.twitterId}</p>
                 </div>
               </div>
               <div className="flex gap-3 items-center border-2 border-[#4285F4] rounded-xl py-5 px-5">
                 <img src="/google.png" alt="google" className="h-11 w-11" />
                 <div className="flex flex-col justify-center items-start">
                   <p className="bricolage-grotesque-600">Google</p>
-                  <p>jaydeep.dey03</p>
+                  <p>{"not linked"}</p>
                 </div>
               </div>
             </CardContent>
@@ -321,7 +336,7 @@ export default function Home() {
 
                   <div className="flex flex-col justify-center items-start">
                     <p className="bricolage-grotesque-600">Donation Template</p>
-                    <p>jaydeep_dey03</p>
+                    <p>{user.twitterId}</p>
                   </div>
                 </div>
                 <Button

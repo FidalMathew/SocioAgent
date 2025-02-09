@@ -1,4 +1,4 @@
-import express, { Response, Request } from "express";
+import express, { Response, Request, Application, NextFunction } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { communicateWithAgent, initializeAgent } from "./cdpActions";
@@ -13,7 +13,7 @@ import User from "./schema/userSchema";
 
 dotenv.config();
 
-const app = express();
+const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(cors());
@@ -179,6 +179,36 @@ app.post("/getUserInfoFromTwitterId", async (req: Request, res: Response) => {
 
     }
 })
+
+
+
+app.post("/loginUser", async (req: Request, res: Response) => {
+    const { uuid, walletAddress } = req.body;
+
+    try {
+        const user = await User.findOne({ useruuid: uuid, cdpWalletAddress: walletAddress });
+
+        if (!user) {
+            res.status(401).json({ message: "Invalid credentials" });
+            return;
+        }
+
+        res.status(200).json({
+            message: "Login successful",
+            user: {
+                uuid: user.useruuid,
+                twitterId: user.twitterId,
+                walletAddress: user.cdpWalletAddress
+            }
+        });
+
+    } catch (error: any) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+});
+
 
 app.listen(PORT, async () => {
     console.log(`Server is running on port ${PORT}`);
