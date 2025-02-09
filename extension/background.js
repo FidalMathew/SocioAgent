@@ -16,6 +16,18 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "TWITTER_USERNAME") {
+    console.log(
+      "Received Twitter username in background.js:",
+      message.username
+    );
+
+    // You can store it in chrome.storage or use it for further processing
+    chrome.storage.sync.set({ twitterUsername: message.username });
+  }
+});
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   // ✅ Fetch tweet text using a background script
   async function fetchTweetText(tabId) {
     console.log("Tab ID:", tabId, "fetchTweetText -- background");
@@ -140,6 +152,16 @@ function translateAndReplaceText() {
     console.log("Received active tab ID:", activeTabId);
 
     // console.log("Tab ID:", tabIdGlobal);
+    chrome.storage.sync.get(["twitterUsername"], (result) => {
+      if (result.twitterUsername) {
+        console.log("Twitter username:", result.twitterUsername);
+        selectedText =
+          selectedText +
+          "..My twitter username is @" +
+          result.twitterUsername +
+          ". Only use this information for something related my onchain actions like sending money to another account, viewing my balances, etc. Don't process it otherwise";
+      }
+    });
 
     console.log("Fetching tweet...");
     try {

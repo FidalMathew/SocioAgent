@@ -45,6 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
   chrome.storage.sync.get(["twitterUsername"], (result) => {
     if (result.twitterUsername) {
       twitterUsername.textContent = result.twitterUsername;
+      chrome.runtime.sendMessage({
+        type: "TWITTER_USERNAME",
+        username: result.twitterUsername,
+      });
     } else {
       twitterUsername.textContent = "Not found";
     }
