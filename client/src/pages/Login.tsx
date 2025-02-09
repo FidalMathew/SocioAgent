@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import {cn} from "@/lib/utils";
+import {Button} from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,18 +7,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ArrowRight } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useUser } from "@/context/socioAgentContext"; // Import useUser
-import { useNavigate } from "react-router-dom";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
+import {ArrowRight, Loader, Loader2} from "lucide-react";
+import {useEffect, useState} from "react";
+import {useUser} from "@/context/socioAgentContext"; // Import useUser
+import {useNavigate} from "react-router-dom";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { user, userLogin } = useUser(); // Get userLogin function from context
+  const {user, userLogin} = useUser(); // Get userLogin function from context
   const [uuid, setUuid] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export function LoginForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await userLogin({ uuid, walletAddress }); // Call userLogin with user input
+    await userLogin({uuid, walletAddress}); // Call userLogin with user input
   };
 
   return (
@@ -43,7 +43,18 @@ export function LoginForm({
       >
         <Card>
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl bricolage-grotesque-font">
+            <p
+              className="bricolage-grotesque-800"
+              style={{
+                fontSize: "3rem",
+                fontWeight: "bold",
+                color: "#6E23DD",
+              }}
+            >
+              SocioAgent
+            </p>
+
+            <CardTitle className="text-xl bricolage-grotesque-font">
               Sign in to your account
             </CardTitle>
             <CardDescription></CardDescription>

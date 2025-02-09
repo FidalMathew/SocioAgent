@@ -146,20 +146,18 @@ app.post("/registerUser", async (req: Request, res: Response) => {
         const account = privateKeyToAccount(privateKey);
 
 
+
         await User.create({
             useruuid: uuid,
             twitterId,
-
             cdpWalletAddress: readWalletFile.defaultAddressId,
             ethereumWalletPrivateKey: privateKey,
             ethereumWalletPublicKey: account.publicKey
         })
 
 
-
-
-
         await main()
+
 
         res.json({
             message: readWalletFile
