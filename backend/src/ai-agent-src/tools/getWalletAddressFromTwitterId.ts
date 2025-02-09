@@ -39,12 +39,12 @@ async function getWalletAddressFromTwitterIdHandler(twitterId: string): Promise<
             twitterId: twitterId
         })
 
-        const { cdpWalletAddress } = response1.data;
+        const { cdpWalletAddress, ethereumWalletPublicKey } = response1.data;
 
         console.log(`wallet address for your twitterId @${twitterId} is: ${cdpWalletAddress}, uuid is ${response1.data.useruuid}`);
 
 
-        return `wallet address is: ${cdpWalletAddress}, uuid is ${response1.data.useruuid}` as any;
+        return `wallet address or cdpWalletAddress is: ${cdpWalletAddress}, uuid is ${response1.data.useruuid}, ethereumWalletPublicKey is ${ethereumWalletPublicKey}` as any;
 
     } catch (error) {
         return error as string;

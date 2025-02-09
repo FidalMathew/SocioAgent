@@ -133,7 +133,7 @@ function translateAndReplaceText() {
     let selectedText = window.getSelection().toString().trim();
     if (!selectedText) return;
 
-    console.log("Selected text:", selectedText);
+    console.log("Selected text fidal mathew:", selectedText);
 
     // const tabId = (
     //   await chrome.tabs.query({ active: true, currentWindow: true })
@@ -159,7 +159,7 @@ function translateAndReplaceText() {
           selectedText +
           "..My twitter username is @" +
           result.twitterUsername +
-          ". Only use this information for something related my onchain actions like sending money to another account, viewing my balances, etc. Don't process it otherwise";
+          ". Only use this information for something related my onchain actions like sending money to another account, viewing my balances, etc. Don't process it otherwise. If I don't mention any chain, take it as base sepolia please";
       }
     });
 

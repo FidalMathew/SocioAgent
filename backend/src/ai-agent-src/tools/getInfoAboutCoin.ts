@@ -13,7 +13,7 @@ export const getInfoAboutCoin: ToolConfig<GetBalanceArgs> = {
         type: 'function',
         function: {
             name: 'get_info_about_coin',
-            description: 'Get information about the coin. 2 lines of information about the coin. Fetch the coin name from the prompt. ',
+            description: 'Get information about the coin Fetch the coin name from the prompt. ',
             parameters: {
                 type: 'object',
                 properties: {
