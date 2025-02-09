@@ -3,15 +3,7 @@
   "name": "SocioAgent: A agent to connect web3 to social media",
   "version": "1.0",
   "description": "Fetches HTML content from URLs, and helps user with onchain interactions using AI agents",
-  "permissions": [
-    "activeTab",
-    "http://*/*",
-    "https://*/*",
-    "contextMenus",
-    "scripting",
-    "storage",
-    "tabs"
-  ],
+  "permissions": ["activeTab", "contextMenus", "scripting", "storage", "tabs"],
   "content_scripts": [
     {
       "matches": ["*://*.x.com/*"],

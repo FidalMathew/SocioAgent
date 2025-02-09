@@ -31,5 +31,5 @@ export const sayHiTool: ToolConfig<SayHiArgs> = {
 async function sayHi({
     name
 }: SayHiArgs): Promise<string> {
-    return `Hi, chodu ${name}!`;
+    return `Hi, generated: ${name}!`;
 }

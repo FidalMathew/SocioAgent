@@ -165,13 +165,55 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("Inside getTweetText -- content");
     let tweetElement = document.querySelector('[data-testid="tweetText"]');
 
-    if (tweetElement) {
-      let tweetText = tweetElement.innerText;
-      sendResponse({ tweetText }); // Send response directly
+    const url = window.location.href;
+    const urlObj = new URL(url);
+    const pathSegments = urlObj.pathname.split("/").filter(Boolean);
+
+    if (pathSegments.length === 3 && pathSegments[1] === "status") {
+      if (tweetElement) {
+        let tweetText = tweetElement.innerText;
+        sendResponse({ tweetText }); // Send response directly
+      } else {
+        sendResponse({ tweetText: "No tweet found" });
+      }
     } else {
-      sendResponse({ tweetText: "No tweet found" });
+      sendResponse({ tweetText: "" });
     }
   }
+
+  if (request.action === "replaceText") {
+    console.log("inside content replaceText");
+    const { newText } = request;
+
+    let tweetBox = document.evaluate(
+      "/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div/div/div/div/div/div/div/span/span",
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue;
+
+    if (!tweetBox) {
+      tweetBox = document.evaluate(
+        "/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/section/div/div/div[1]/div[1]/div/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div/div/div/div/div/div/div/span/span",
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      ).singleNodeValue;
+    }
+
+    if (tweetBox) {
+      tweetBox.innerText = newText;
+      tweetBox.dispatchEvent(new Event("input", { bubbles: true }));
+
+      sendResponse({ success: true });
+    } else {
+      console.log("Tweet box not found");
+      sendResponse({ success: false, error: "Tweet box not found" });
+    }
+  }
+
   return true; // Required to keep sendResponse alive for async calls
 });
 

@@ -37,6 +37,31 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
   }
 
+  async function replaceSelectedText(tabId, newText) {
+    console.log("Tab ID:", tabId, "replaceSelectedText -- background");
+    console.log("New text:", newText);
+
+    return new Promise((resolve, reject) => {
+      chrome.tabs.sendMessage(
+        tabId,
+        { action: "replaceText", newText },
+        (response) => {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError.message);
+            reject("Error sending message to content script.");
+            return;
+          }
+
+          if (response && response.success) {
+            resolve("Text replaced successfully.");
+          } else {
+            reject("Failed to replace text.");
+          }
+        }
+      );
+    });
+  }
+
   if (message.action === "getActiveTab") {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length === 0) {
@@ -49,10 +74,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 
   if (message.action === "fetchTweetText") {
+    console.log("Inside fetchTweetText -- background");
     fetchTweetText(message.tabId)
       .then((tweetText) => sendResponse({ tweetText }))
       .catch((error) => sendResponse({ error }));
     return true;
+  }
+
+  if (message.action === "replaceSelectedText") {
+    console.log("Inside action");
+    replaceSelectedText(message.tabId, message.newText)
+      .then((response) => sendResponse({ success: true }))
+      .catch((error) => sendResponse({ error }));
   }
 });
 
@@ -84,26 +117,6 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // ✅ Injected into the web page
 function translateAndReplaceText() {
-  async function replaceSelectedText(newText) {
-    let selection = window.getSelection();
-    if (!selection.rangeCount) return;
-
-    let range = selection.getRangeAt(0);
-    let selectedNode = range.startContainer;
-
-    let translatedSpan = document.createElement("span");
-    translatedSpan.textContent = newText;
-    translatedSpan.style.color = "white"; // Highlight
-
-    if (selectedNode.nodeType === Node.TEXT_NODE) {
-      let parentElement = selectedNode.parentNode;
-      parentElement.replaceChild(translatedSpan, selectedNode);
-    } else if (selectedNode.nodeType === Node.ELEMENT_NODE) {
-      selectedNode.innerHTML = "";
-      selectedNode.appendChild(translatedSpan);
-    }
-  }
-
   async function translateSelectedText() {
     let selectedText = window.getSelection().toString().trim();
     if (!selectedText) return;
@@ -162,7 +175,16 @@ function translateAndReplaceText() {
 
       console.log("Data: -- from backend", data);
       if (data && data.message) {
-        replaceSelectedText(data.message);
+        // replaceSelectedText(data.message);
+
+        console.log("Replacing selected text...");
+        const replaceRes = await chrome.runtime.sendMessage({
+          action: "replaceSelectedText",
+          tabId: activeTabId,
+          newText: data.message,
+        });
+
+        console.log("Replace response:", replaceRes);
       }
     } catch (error) {
       console.error("Translation error:", error);
