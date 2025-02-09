@@ -1,8 +1,10 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import Template from "./pages/Template";
-import {Auth0Provider} from "@auth0/auth0-react";
-import {LoginForm} from "./pages/Login";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { LoginForm } from "./pages/Login";
+import { StarknetProvider } from "./StarknetProvider";
+
 function App() {
   return (
     <>
@@ -13,14 +15,16 @@ function App() {
           redirect_uri: window.location.origin,
         }}
       >
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="*" element={<div>Not Found</div>} />
-            <Route path="/template/:id" element={<Template />} />
-          </Routes>
-        </BrowserRouter>
+        <StarknetProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="*" element={<div>Not Found</div>} />
+              <Route path="/template/:id" element={<Template />} />
+            </Routes>
+          </BrowserRouter>
+        </StarknetProvider>
       </Auth0Provider>
     </>
   );

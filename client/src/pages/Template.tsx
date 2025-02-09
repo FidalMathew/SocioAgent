@@ -1,4 +1,5 @@
 import DonationEtherium from "@/components/DonationEtherium";
+import DonationStarknet from "@/components/DonationStarknet";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -23,15 +24,14 @@ interface TemplateData {
 
 function Template() {
   const { id } = useParams<{ id: string }>(); // Extract 'id' from the URL
-  const [templateData, setTemplateData] = useState<TemplateData | null>(null); // State to store fetched template data
-  const [loading, setLoading] = useState<boolean>(true); // State to handle loading
-  const [error, setError] = useState<string | null>(null); // State to handle errors
+  const [templateData, setTemplateData] = useState<TemplateData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        // Assuming the IPFS URL follows a pattern like below:
         const ipfsUrl = `https://gateway.pinata.cloud/ipfs/${id}`;
         const response = await fetch(ipfsUrl);
 
@@ -59,16 +59,29 @@ function Template() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
-  return (
+
+  if (!templateData) return <p>No template data found.</p>;
+
+  return templateData.chain === "Starknet" ? (
+    <DonationStarknet
+      bgColor={templateData.bgColor}
+      imageUrl={templateData.imageUrl}
+      heading={templateData.heading}
+      text={templateData.text}
+      buttonColor={templateData.buttonColor}
+      btnText={templateData.btnText}
+      recieverAddress={templateData.receiverAddress} // Fixed typo
+    />
+  ) : (
     <DonationEtherium
-      chain={templateData?.chain || ""}
-      bgColor={templateData?.bgColor || ""}
-      imageUrl={templateData?.imageUrl}
-      heading={templateData?.heading || ""}
-      text={templateData?.text || ""}
-      buttonColor={templateData?.buttonColor || ""}
-      btnText={templateData?.btnText || ""}
-      reciverAddress={templateData?.receiverAddress || ""}
+      chain={templateData.chain}
+      bgColor={templateData.bgColor}
+      imageUrl={templateData.imageUrl}
+      heading={templateData.heading}
+      text={templateData.text}
+      buttonColor={templateData.buttonColor}
+      btnText={templateData.btnText}
+      recieverAddress={templateData.receiverAddress} // Fixed typo
     />
   );
 }

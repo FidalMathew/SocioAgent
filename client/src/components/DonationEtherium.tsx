@@ -19,7 +19,7 @@ interface DonationEtheriumProps {
   text: string;
   buttonColor: string;
   btnText: string;
-  reciverAddress: string;
+  recieverAddress: string;
 }
 
 function DonationEtherium({
@@ -30,7 +30,7 @@ function DonationEtherium({
   text,
   buttonColor,
   btnText,
-  reciverAddress,
+  recieverAddress,
 }: DonationEtheriumProps) {
   const [ethAmount, setEthAmount] = useState<string>("0");
   //   const { currentAccount, connectWallet } = useContext(EmbedlyContext);
@@ -162,7 +162,7 @@ function DonationEtherium({
 
       // Send transaction
       const tx = await signer.sendTransaction({
-        to: reciverAddress,
+        to: recieverAddress,
         value: ethers.utils.parseEther(ethAmount), // Convert ETH to wei
       });
 
