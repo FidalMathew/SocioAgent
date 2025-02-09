@@ -1,7 +1,7 @@
 import { getBalanceTool } from './getBalance';
 import { getWalletAddressTool } from './getWalletAddress';
 import { readContractTool } from './readContract';
-import { sendTransactionTool } from './sendTransaction';
+import { sendTransactionCdpTool } from './sendTransactionCdp';
 import { writeContractTool } from './writeContract';
 import { getContractAbiTool } from './getContractAbi';
 import { getTransactionReceiptTool } from './getTransactionReceipt';
@@ -45,6 +45,10 @@ export const tools: Record<string, ToolConfig> = {
     get_balance_cdp_address: getBalanceCdpAddressTool,
 
 
+    send_transaction_cdp: sendTransactionCdpTool,
+
+
+
     // == READ == \\
     get_contract_abi: getContractAbiTool,
     read_contract: readContractTool,
@@ -52,7 +56,6 @@ export const tools: Record<string, ToolConfig> = {
     // get_contract_bytecode: getContractBytecodeTool,
 
     // == WRITE == \\
-    send_transaction: sendTransactionTool,
     write_contract: writeContractTool,
     deploy_erc20: deployErc20Tool,
     create_uniswap_v3_pool: uniswapV3CreatePoolTool,

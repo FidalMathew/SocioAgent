@@ -1,1 +1,5 @@
+<<<<<<< Updated upstream
 {"walletId":"8a6d3b0a-7d4f-4c71-9243-8203353e4947","seed":"6efc021ad6b160ba1a262ceaba1db9466a05ad450a41a6dd3fe08dd7ce6d9b91","networkId":"base-sepolia","defaultAddressId":"0x28A7ca0a2D46a41A69D89F683CCED4d1ECc56960"}
+=======
+{"walletId":"b2c54e73-779f-43ec-b679-02241e3c71b1","seed":"802fbb40a76bab0aedea894144078f383548ed8fc5db972b6143d36a3a61fc91","networkId":"base-sepolia","defaultAddressId":"0xde9141b821E68E620Ab17A1EfA0979187B09533B"}
+>>>>>>> Stashed changes
